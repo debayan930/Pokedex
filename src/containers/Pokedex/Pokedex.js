@@ -3,6 +3,7 @@ import axios from '../../axios-pokemon';
 import ControlBar from '../../components/ControlBar/ControlBar';
 import PokemonList from '../../components/Pokemon/PokemonList';
 import Aux from '../../hoc/Auxiliary';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Pokedex extends Component {
     state = {
@@ -24,6 +25,21 @@ class Pokedex extends Component {
 
     componentDidMount(){
         this.loadPokemon();
+        this.scrollListener = window.addEventListener('scroll', (e) => this.handleScroll(e));
+    }
+
+    handleScroll = (e) => {
+        if(this.state.scrolling || this.state.offset >= 950){
+            return;
+        }
+
+        const lastPokemon = document.querySelector('div.Pokemon_Pokemon__160E_:last-child');
+        const lastPokemonOffset = lastPokemon.offsetTop + lastPokemon.clientHeight;
+        const pageOffset = window.pageYOffset + window.innerHeight;
+        const bottomOffset = 20;
+        if(pageOffset > lastPokemonOffset - bottomOffset){
+            this.loadMore()
+        }
     }
 
     loadPokemon = () => {
@@ -82,7 +98,7 @@ class Pokedex extends Component {
             return poke.name.toLowerCase().includes(this.state.search.toLowerCase());
         });
 
-        const pokeList = this.state.pokemon.length ? <PokemonList pokemon={filteredPokemonSearch} /> : null;
+        const pokeList = this.state.pokemon.length ? <PokemonList pokemon={filteredPokemonSearch} /> : <Spinner />;
         return(
             <Aux>
                 <ControlBar
@@ -92,6 +108,7 @@ class Pokedex extends Component {
                     searchChange={this.searchChangeHandler}
                 />
                 {pokeList}
+                {this.state.scrolling ? <Spinner /> : null}
             </Aux>
         );
     }
