@@ -1,0 +1,29 @@
+.ControlBar{
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    position: fixed;
+    top: 6.5%;
+    background-color: white;
+    z-index: 99;
+    border-bottom: 2px solid #ccc;
+}
+
+.ControlBar select{
+    width: 25%;
+    text-transform: capitalize;
+    height: 70%;
+    align-self: center;
+    outline: none;
+    border-radius: 10px;
+}
+
+@media (min-width: 500px){
+    .ControlBar select{
+        width: 15%;
+    }
+}

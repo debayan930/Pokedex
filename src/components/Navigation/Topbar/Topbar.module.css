@@ -1,0 +1,33 @@
+.Topbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #912055;
+    color: white;
+    z-index: 99;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+.Topbar .Text{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Topbar nav{
+    height: 100%;
+}
+
+@media (max-width: 499px){
+    .DesktopOnly{
+        display: none;
+    }
+}

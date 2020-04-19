@@ -1,0 +1,14 @@
+.PokeDetails{
+    height: 100%;
+    text-transform: capitalize;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 110%;
+}
+
+.PokeDetails img{
+    height: 100%;
+    width: 35px;
+    margin-right: 10px;
+}

@@ -1,0 +1,24 @@
+.Search{
+    height: 100%;
+    width: 70%;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.Search input{
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    padding: 0 5px;
+}
+
+.Search img{
+    height: 100%;
+    width: 37px;
+}
+
+@media (min-width: 500px){
+    .Search{
+        width: 50%;
+    }
+}

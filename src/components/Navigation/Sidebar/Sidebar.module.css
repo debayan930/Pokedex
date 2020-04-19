@@ -1,0 +1,20 @@
+.Sidebar{
+    background-color: #912055;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 275px;
+    max-width: 70%;
+    height: 100%;
+    z-index: 200;
+    transition: 0.3s transform ease-out;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+@media (min-width: 500px){
+    .Sidebar{
+        display: none;
+    }
+}
