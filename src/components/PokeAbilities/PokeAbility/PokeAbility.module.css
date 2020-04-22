@@ -1,0 +1,21 @@
+.PokeAbility{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    text-align: left;
+    margin: 15px 0;
+    box-sizing: border-box;
+    border-bottom: 1px solid white;
+}
+
+.PokeAbility .Title{
+    text-transform: capitalize;
+    font-weight: 600;
+    font-weight: 110%;
+    margin-bottom: 5px;
+}
+
+.PokeAbility .Content{
+    /* font-size: 90%; */
+}

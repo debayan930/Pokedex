@@ -4,6 +4,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: -10px;
+}
+
+.PokeBasics .ImgContainer{
+    width: 100%;
+    padding: 5px 0;
+    background-color: #eee;
 }
 
 .PokeBasics img{
@@ -11,7 +18,7 @@
 }
 
 .PokeBasics .Basics{
-    height: 100px;
+    height: 130px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -20,11 +27,21 @@
 
 .PokeBasics .Basics .Name{
     display: flex;
-    width: 150px;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: space-evenly;
     align-items: baseline;
 }
 
+.PokeBasics .Basics .Name span{
+    margin: 0 10px;
+}
+
 .PokeBasics .Basics .Name span:last-child{
-    font-size: 160%;
+    font-size: 120%;
+}
+
+.PokeBasics .Basics .Title{
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 200%;
 }

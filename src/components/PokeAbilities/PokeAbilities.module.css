@@ -1,0 +1,12 @@
+.PokeAbilities{
+    width: 100%;
+    background-color: #eee;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.PokeAbilities .Header{
+    text-decoration: underline;
+    font-size: 110%;
+    font-weight: 600;
+}

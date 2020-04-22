@@ -6,6 +6,12 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import Aux from '../../hoc/Auxiliary';
 import PokePhysical from '../../components/PokePhysical/PokePhysical';
 import { withRouter } from 'react-router-dom';
+import PokeMisc from '../../components/PokeMisc/PokeMisc';
+import PokeDexEntry from '../../components/PokeDexEntry/PokeDexEntry';
+import PokeSprites from '../../components/PokeSprites/PokeSprites';
+import PokeStats from '../../components/PokeStats/PokeStats';
+import PokeAbilities from '../../components/PokeAbilities/PokeAbilities';
+// import PokeEvolutions from '../PokeEvolutions/PokeEvolutions';
 
 class PokemonSummary extends Component {
     state = {
@@ -32,11 +38,17 @@ class PokemonSummary extends Component {
     }
     
     render(){
-        const pokeSummary = this.state.pokemon ?
+        const pokeSummary = this.state.pokemon && this.state.species ?
             <Aux>
-                <PokeBasics pokemon={this.state.pokemon} />
+                <PokeBasics pokemon={this.state.pokemon} species={this.state.species} />
                 <PokePhysical pokemon={this.state.pokemon} />
-                {/* <PokeDetails pokemon /> */}
+                <PokeMisc species={this.state.species} />
+                <PokeDexEntry pokeDexEntry={this.state.species.flavor_text_entries} />
+                <PokeSprites sprites={this.state.pokemon.sprites} />
+                <PokeStats stats={this.state.pokemon.stats} />
+                {/* <PokeEvolutions species={this.state.species} /> */}
+                <PokeAbilities pokemon={this.state.pokemon} />
+
             </Aux>
             : <Spinner />;
         return(

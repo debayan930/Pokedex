@@ -1,0 +1,20 @@
+.PokeMisc{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    margin-top: 10px;
+}
+
+.PokeMisc table td{
+    text-transform: capitalize;
+    text-align: left;
+    padding: 5px;
+}
+
+.PokeMisc table td:nth-last-of-type(n+3){
+    text-align: right;
+}

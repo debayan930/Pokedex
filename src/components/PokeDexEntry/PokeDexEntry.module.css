@@ -1,0 +1,18 @@
+.PokeDexEntry{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: left;
+}
+
+.PokeDexEntry span{
+    display: block;
+}
+
+.PokeDexEntry span:first-child{
+    text-decoration: underline;
+    text-align: center;
+    font-weight: 600;
+    font-size: 110%;
+    margin-bottom: 10px;
+}
