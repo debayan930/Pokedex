@@ -5,7 +5,7 @@ import PokeDetails from '../../PokeDetails/PokeDetails';
 
 const Pokemon = (props) => {
     return(
-        <div className={classes.Pokemon}>
+        <div className={classes.Pokemon} onClick={() => props.pokemonSelect(props.pokemon.name)}>
             <div className={classes.MobileOnly}>
                 <PokeDetails
                     img={props.pokemon.img}

@@ -1,0 +1,36 @@
+.PokePhysical{
+    width: 70%;
+    margin: 0 auto;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 30px;
+    box-sizing: border-box;
+    font-size: 75%;
+}
+
+.PokePhysical .Stat{
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.PokePhysical .Stat span{
+    height: 100%;
+    padding: 2px 4px;
+}
+
+.PokePhysical .Stat span:first-child{
+    background-color: #912055;
+    width: 45px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.PokePhysical .Stat span:last-child{
+    background-color: #1d8f99;
+    width: 25px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

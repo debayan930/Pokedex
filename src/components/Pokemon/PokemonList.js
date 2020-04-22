@@ -3,7 +3,7 @@ import Pokemon from './Pokemon/Pokemon';
 import classes from './PokemonList.module.css';
 
 const PokemonList = (props) => {
-    const pokeList = props.pokemon.map(poke => <Pokemon key={poke.id} pokemon={poke} />);
+    const pokeList = props.pokemon.map(poke => <Pokemon key={poke.id} pokemon={poke} pokemonSelect={props.pokemonSelect} />);
     
     return(
         <div className={classes.PokemonList}>

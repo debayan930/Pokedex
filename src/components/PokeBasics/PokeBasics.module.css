@@ -1,0 +1,30 @@
+.PokeBasics{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PokeBasics img{
+    height: 150px;
+}
+
+.PokeBasics .Basics{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.PokeBasics .Basics .Name{
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.PokeBasics .Basics .Name span:last-child{
+    font-size: 160%;
+}
