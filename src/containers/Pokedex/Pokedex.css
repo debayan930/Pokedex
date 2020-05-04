@@ -1,0 +1,46 @@
+.Paginate{
+    box-sizing: border-box;
+    width: 90%;
+    margin: auto;
+    padding: 5px 10px;
+    margin-top: 20px;
+}
+
+.Paginate ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+}
+
+.Paginate ul li a{
+    text-decoration: none;
+    color: white;
+}
+
+.Paginate ul li{
+    background-color: #912055;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+}
+
+.Paginate li:active,
+.Paginate li.active{
+    background-color: #e0a912;
+}
+
+.Paginate ul li a{
+    height: 100%;
+    width: 100%;
+}
+
+@media (min-width: 500px){
+    .Paginate{
+        width: 60%;
+    }
+}

@@ -4,7 +4,6 @@ import Pokedex from './containers/Pokedex/Pokedex';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Layout from './hoc/Layout/Layout';
 import Spinner from './components/UI/Spinner/Spinner';
-// import PokemonSummary from '../src/containers/PokemonSummary/PokemonSummary';
 
 const PokemonSummary = React.lazy(() => import('./containers/PokemonSummary/PokemonSummary'))
 
@@ -23,6 +22,7 @@ class App extends Component {
                 ) 
               }} exact />
               <Route path='/' exact component={Pokedex} />
+              <Route render={() => <h1>404 Not Found</h1>} />
             </Switch>
           </Layout>
         </div>

@@ -1,24 +1,35 @@
 import React, { Component } from 'react';
-import axios from '../../axios-pokemon';
 import ControlBar from '../../components/ControlBar/ControlBar';
 import PokemonList from '../../components/Pokemon/PokemonList';
 import Aux from '../../hoc/Auxiliary';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import InfiniteScroll from "react-infinite-scroll-component";
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import Pagination from "react-js-pagination";
+import './Pokedex.css';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import axios from '../../axios-pokemon';
 
 const LIMIT = 50;
 
 class Pokedex extends Component {
     state = {
-        pokemon: [],
         showModal: false,
-        offset: 0,
-        type: 'All',
-        search: ''
+        search: '',
+        activePage: 1
     }
 
-    abortController = new AbortController()
+    pageChange = (pageNumber) => {
+        if(pageNumber === this.state.activePage){
+            return;
+        }
+
+        const offset = pageNumber > this.state.activePage ? this.props.offset + (pageNumber - this.state.activePage) * LIMIT : 
+        this.props.offset - Math.abs((pageNumber - this.state.activePage)) * LIMIT;
+        this.setState({ activePage: pageNumber });
+        this.props.loadMorePokemon(offset);
+    }
 
     modalCloseHandler = () => {
         this.setState((prevState, prevProps) => {
@@ -29,84 +40,16 @@ class Pokedex extends Component {
     }
 
     componentDidMount(){
-        this.loadPokemon('All', true);
-    }
-
-    componentWillUnmount(){
-        this.abortController.abort();
-    }
-
-    loadPokemon = (type) => {
-        if(type.toLowerCase() === 'all'){
-            axios.get('/pokemon?offset=' + this.state.offset + '&limit=' + LIMIT, { signal: this.abortController.signal })
-            .then(response => response.data.results.forEach(item => {
-                fetch(item.url)
-                    .then(res => res.json())
-                    .then(poke => this.setState((prevState) => {
-                        let pokeList = [...prevState.pokemon, {...poke, ...{'img': `https://pokeres.bastionbot.org/images/pokemon/${poke.id}.png`}}];
-                        for(let i=0;i<pokeList.length;i++){
-                            for(let j=i+1;j<pokeList.length;j++){
-                                let temp = null;
-                                if(pokeList[i].id > pokeList[j].id){
-                                    temp = pokeList[i];
-                                    pokeList[i] = pokeList[j];
-                                    pokeList[j] = temp;
-                                }
-                            }
-                        }
-
-                        return {
-                            pokemon: pokeList
-                        }
-                    }));
-            }))
-            .catch(error => console.log(error));
-        } else {
-            axios.get('/type/' + type, { signal: this.abortController.signal })
-                .then(response => response.data.pokemon.forEach(poke => {
-                    fetch(poke.pokemon.url)
-                        .then(res => res.json())
-                        .then(item => this.setState(prevState => {
-                            let pokeList = [...prevState.pokemon, {...item, ...{'img': `https://pokeres.bastionbot.org/images/pokemon/${item.id}.png`}}];
-                            for(let i=0;i<pokeList.length;i++){
-                                for(let j=i+1;j<pokeList.length;j++){
-                                    let temp = null;
-                                    if(pokeList[i].id > pokeList[j].id){
-                                        temp = pokeList[i];
-                                        pokeList[i] = pokeList[j];
-                                        pokeList[j] = temp;
-                                    }
-                                }
-                            }
-
-                            return {
-                                pokemon: pokeList
-                            }
-                        }));
-                }))
-                .catch(error => console.log(error));
-        }
+        this.props.fetchPokemon();
     }
 
     loadMore = (type) => {
         this.setState((prevState) => {
             return {
-                offset: prevState.offset + LIMIT
+                offset: prevState.offset + LIMIT,
+                activePage: prevState.activePage + 1
             }
-        }, () => this.loadPokemon(type));
-    }
-
-    typeChangeHandler = (e) => {
-        this.setState(
-            { 
-                type: e.target.value,
-                search: '',
-                offset: 0,
-                pokemon: []
-            }
-        );
-        
-        this.loadPokemon(e.target.value);
+        }, () => this.loadPokemonPaginate(type));
     }
     
     searchChangeHandler = (e) => {
@@ -123,31 +66,57 @@ class Pokedex extends Component {
     }
 
     render(){
-        const pokeList = this.state.pokemon.length ? <PokemonList pokemon={this.state.pokemon} pokemonSelect={this.pokemonSelectedHandler} />
-            : null;
+        const pokeList = !this.props.loading ? <PokemonList pokemon={this.props.pokemon} pokemonSelect={this.pokemonSelectedHandler} />
+            : <Spinner />;
         
         return(
             <Aux>
                 <ControlBar
-                    type={this.state.type}
-                    typeChange={this.typeChangeHandler}
+                    type={this.props.type}
+                    typeChange={this.props.changePokemonType}
                     search={this.state.search}
                     searchChange={this.searchChangeHandler}
                 />
-                <InfiniteScroll
-                    dataLength={this.state.pokemon.length}
-                    next={() => this.loadMore(this.state.type)}
-                    hasMore={true || false}
-                    loader={<Spinner />}
-                    height='91vh'
-                >
-                    <LazyLoadComponent>
-                        {pokeList}
-                    </LazyLoadComponent>
-                </InfiniteScroll>
+                <LazyLoadComponent>
+                    {pokeList}
+                </LazyLoadComponent>
+                <div className='Paginate'>
+                    <Pagination
+                        activePage={this.state.activePage}
+                        itemsCountPerPage={50}
+                        totalItemsCount={this.props.count}
+                        pageRangeDisplayed={5}
+                        onChange={this.pageChange.bind(this)}
+                    />
+                </div>
             </Aux>
         );
     }
 };
 
-export default Pokedex;
+const mapStateToProps = state => {
+    return {
+        pokemon: state.pokemon,
+        type: state.type,
+        offset: state.offset,
+        count: state.count,
+        loading: state.loading
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchPokemon: (type) => dispatch(actions.fetchPokemon(type)),
+        changePokemonType: (event) => {
+            dispatch(actions.updatePokemonType(event.target.value));
+            dispatch(actions.updateOffset(0));
+            dispatch(actions.fetchPokemon());
+        },
+        loadMorePokemon: (offset) => {
+            dispatch(actions.updateOffset(offset));
+            dispatch(actions.fetchPokemon());
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Pokedex, axios));
