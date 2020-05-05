@@ -17,17 +17,17 @@ class Pokedex extends Component {
     state = {
         showModal: false,
         search: '',
-        activePage: 1
+        // activePage: 1
     }
 
     pageChange = (pageNumber) => {
-        if(pageNumber === this.state.activePage){
+        if(pageNumber === this.props.activePage){
             return;
         }
 
-        const offset = pageNumber > this.state.activePage ? this.props.offset + (pageNumber - this.state.activePage) * LIMIT : 
-        this.props.offset - Math.abs((pageNumber - this.state.activePage)) * LIMIT;
-        this.setState({ activePage: pageNumber });
+        const offset = pageNumber > this.props.activePage ? this.props.offset + (pageNumber - this.props.activePage) * LIMIT : 
+        this.props.offset - Math.abs((pageNumber - this.props.activePage)) * LIMIT;
+        this.props.changeActivePage(pageNumber);
         this.props.loadMorePokemon(offset);
     }
 
@@ -77,12 +77,27 @@ class Pokedex extends Component {
                     search={this.state.search}
                     searchChange={this.searchChangeHandler}
                 />
+                <div
+                    className='Paginate'
+                    style={{
+                        marginTop: '100px',
+                        marginBottom: '-90px'
+                    }}
+                >
+                    <Pagination
+                        activePage={this.props.activePage}
+                        itemsCountPerPage={50}
+                        totalItemsCount={this.props.count}
+                        pageRangeDisplayed={5}
+                        onChange={this.pageChange.bind(this)}
+                    />
+                </div>
                 <LazyLoadComponent>
                     {pokeList}
                 </LazyLoadComponent>
                 <div className='Paginate'>
                     <Pagination
-                        activePage={this.state.activePage}
+                        activePage={this.props.activePage}
                         itemsCountPerPage={50}
                         totalItemsCount={this.props.count}
                         pageRangeDisplayed={5}
@@ -100,7 +115,8 @@ const mapStateToProps = state => {
         type: state.type,
         offset: state.offset,
         count: state.count,
-        loading: state.loading
+        loading: state.loading,
+        activePage: state.activePage
     }
 };
 
@@ -111,11 +127,13 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(actions.updatePokemonType(event.target.value));
             dispatch(actions.updateOffset(0));
             dispatch(actions.fetchPokemon());
+            dispatch(actions.updateActivePage(1));
         },
         loadMorePokemon: (offset) => {
             dispatch(actions.updateOffset(offset));
             dispatch(actions.fetchPokemon());
-        }
+        },
+        changeActivePage: (activePage) => {dispatch(actions.updateActivePage(activePage))}
     }
 };
 

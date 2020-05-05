@@ -6,7 +6,8 @@ const initialState = {
     type: 'All',
     offset: 0,
     count: 0,
-    loading: true
+    loading: true,
+    activePage: 1
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,6 +26,9 @@ const reducer = (state = initialState, action) => {
 
         case actions.UPDATE_LOADING_STATUS:
             return dotProp.set(state, 'loading', action.payload);
+
+        case actions.UPDATE_ACTIVE_PAGE:
+            return dotProp.set(state, 'activePage', action.payload);
 
         default:
             return state;

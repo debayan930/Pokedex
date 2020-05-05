@@ -9,7 +9,6 @@ const NavigationItems = (props) => {
             <NavigationItem link='/moves'>Moves</NavigationItem>
             <NavigationItem link='/abilities'>Abilities</NavigationItem>
             <NavigationItem link='/types'>Types</NavigationItem>
-            <NavigationItem link='/semantic'>Semantic</NavigationItem>
         </ul>
     );
 };

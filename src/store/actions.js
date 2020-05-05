@@ -38,6 +38,13 @@ const updateLoadingStatus = (loading) => {
     }
 };
 
+export const updateActivePage = (activePage) => {
+    return {
+        type: actions.UPDATE_ACTIVE_PAGE,
+        payload: activePage
+    }
+};
+
 export const fetchPokemon = () => {
     let pokeList = [];
     return (dispatch, getState) => {
